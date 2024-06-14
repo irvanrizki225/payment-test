@@ -29,10 +29,12 @@ class ProcessTransaction implements ShouldQueue
      */
     public function handle(): void
     {
+        sleep(3);
+
         $transaction = Transaction::find($this->transactionId);
         if ($transaction) {
             $transaction->status = $this->request;
-            $transaction->udpate();
+            $transaction->update();
         }
     }
 }

@@ -56,6 +56,13 @@ class PaymentController extends Controller
         $this->validateRequest($request);
 
         try {
+
+            $transaction = Transaction::where('id', $id)->where('status', 'pending')->first();
+
+            if (!$transaction) {
+                return ResponseFormatter::error(null, 'Transaction Not Found', 200);
+            }
+
             ProcessTransaction::dispatch($id, Crypt::decryptString($request->status));
 
             return ResponseFormatter::success(null, 'Change Status Success');
